@@ -10,10 +10,16 @@ Team Members:
 4. Joshua Smith
 
 ## Tasks
-dwa
-
-## KPIs
-dwa
+1. Write/Finalise Project Overview Report (Hardware Architecture, Data Tree, Flowcharts, Group Wiki, KPIs, etc.) for Milestone. See full list of tasks below.
+2. Identify the Communication Protocol made by the CityCats (AIS A / B)
+3. Figure out how to use the radio receiver for these two channels and frequencies
+4. Transfer radio from raspberry pi to the nrf52840 using uart
+5. Receive on nrf52840 and process data in some way (movement prediction, Kalman filter, etc.)
+6. Identify bluetooth send/receive method for the PC (PyBluez Module looks promising)
+7. Make a bluetooth communication protocol between the nrf52840 and the PC
+8. Receive and process the bluetooth data on PC such that it is appropraite for display (this would be the step to implement any kind of blockchain or something for immutability)
+9. Develop PC app to display the data as appropriate
+10. Make the Poster / Props / Presentation outline for Final Presentation
 
 ## Requirements
 - At least one sensor -> Radio Receiver
@@ -40,12 +46,12 @@ dwa
 - Props -> City cat 3D model, idk what else we could do.
 - Maintain a group wiki -> This github will need to have a wiki pages as seen in project overview tasks.
 
-### Project Overview Tasks for Group Wiki
+### Project Overview Tasks for Group Wiki - Must be done for Milestone!
 - Write a project description
 - Need 5 KPIs -> As seen above
-- Write a system overview -> Hardware Architecture, Top Level Flowchar
+- Write a system overview -> Hardware Architecture, Top Level Flowchart
 - Snesor Integration - What sensors, what data, etc.
 - Wireless Network, IoT Protocols, or Web Dashboards
 - Algorithm Schemes Used
 - DIKW Pyramid Abstraction
-- Daily Prohect updates
+- Daily project updates

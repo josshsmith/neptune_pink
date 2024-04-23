@@ -17,15 +17,27 @@ dwa
 
 ## Requirements
 - At least one sensor -> Radio Receiver
-- At least one actuaor -> NOT PRESENT IN OUR THING, MAY NEED VGA MONITOR
+- At least one actuaor -> NOT PRESENT IN OUR DESIGN, BUT NOT REQUIRED AS PER MARKING CRITERIA
+- PC/Mobile App of some kind -> Will be done on the display
 - Non-trivial wireless networking, at least 3 nodes -> Base (Raspberry Pi), NRF52840, Display (PC/M5)
     - Base will receive radio waves using sensor, Lime SDR Mini is currently desired 
     - nrf52840 will processed info from base using uart 
     - Display will receive info from nrf52940 via bluetooth
 - Non-trivial techniques from Lectures 1-9
+    - Localisation
+    - Mobility / Tracking
+    - Time Synchronisation?
+    - Sensing or Signal Processing
     - Kalman Filter?
     - Blockchain?
-- PC/Mobile App of some kind -> Will be done on the display
+- Poster
+    - Aims (KPI)
+    - System Overview
+    - Results
+    - Conclusions (WRT the KPI)
+    - Presentation Format
+- Creativity -> Cool app design?
+- Props -> City cat 3D model, idk what else we could do.
 - Maintain a group wiki -> This github will need to have a wiki pages as seen in project overview tasks.
 
 ### Project Overview Tasks for Group Wiki

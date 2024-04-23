@@ -23,7 +23,7 @@ Team Members:
 
 ## Requirements
 - At least one sensor -> Radio Receiver
-- At least one actuaor -> NOT PRESENT IN OUR DESIGN, BUT NOT REQUIRED AS PER MARKING CRITERIA
+- At least one actuaor -> Display
 - PC/Mobile App of some kind -> Will be done on the display
 - Non-trivial wireless networking, at least 3 nodes -> Base (Raspberry Pi), NRF52840, Display (PC/M5)
     - Base will receive radio waves using sensor, Lime SDR Mini is currently desired 

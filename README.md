@@ -9,4 +9,3 @@ Team Members:
 
 ## Project Description
 Marine Vehicle AIS Transponder tracking using a Software Defined Radio. 
-

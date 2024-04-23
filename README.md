@@ -1,4 +1,4 @@
-# neptune_pink
+# Neptune Pink
 
 ## CSSE4011 Project    
 Team Members:  
@@ -8,7 +8,5 @@ Team Members:
 4. Joshua Smith
 
 ## Project Description
-Marine Vehicle AIS Transponder tracking using a Software Defined Radio  
+Marine Vehicle AIS Transponder tracking using a Software Defined Radio. 
 
-
-dwa

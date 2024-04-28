@@ -25,33 +25,24 @@ q = queue.Queue()
 def ais_rec():
     while True:
         try:
-            # Read a single character from the serial port
-            char = ser.read(1).decode()
-            # '?' signal a json packet will follow
-            if char == '?':
-                char = ser.read(1).decode()
-                string = ''  # string to be filled by json data
-                while char != '?':
-                    string += char
-                    char = ser.read(1).decode()
-                    # another ? signals the end of the packet
-                data = json.loads(string)
-                q.put(data)
-
+            data = q.get()  # Get data from the queue
+            json_data = json.dumps(data)  # Convert data to JSON format
+            ser.write(json_data.encode())  # Send JSON data over serial
         except (KeyboardInterrupt, SystemExit):
             # Close the serial connection if the script is interrupted
             ser.close()
-            print("closed")
+            print("Closed")
             break
         except Exception as e:
             # Handle any other exceptions
             print(f"Error: {e}")
-        time.sleep(SLEEP_DURATION)  # sleep time can be altered
+            time.sleep(SLEEP_DURATION)  # Sleep duration can be altered
 
 
 def web_cloud_thread():
-    data = q.get()
-    print(f"Data has been recieved: Data: {data}")
+    # get data from server
+    # put data on a queue
+    pass
 
 
 if __name__ == "__main__":

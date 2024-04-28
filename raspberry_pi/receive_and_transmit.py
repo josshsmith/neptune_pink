@@ -1,53 +1,22 @@
-"""
-Recieve data over a serial connection from the radio module.
-Then this is put into a BLE advertising packet
-"""
+import requests
+import json
 
+# Replace with your server URL
+SERVER_URL = "NOT_SURE_YET"
 
-import serial
-from bluetooth import *
-import time
+# Convert data to JSON format
+json_data = json.dumps(data)
 
-
-# update these appropriately
-PORT = '/dev/ttyUSB0'
-BAUD_RATE = 115200
-service_uuid = '00001800-0000-1000-8000-00805f9b34fb'
-SLEEP_TIME = 0.01
-
-
-# set up the serial port
-serial_port = PORT
-baud_rate = BAUD_RATE
-
-# open serial port
 try:
-    ser = serial.Serial(serial_port, baud_rate)
-except serial.SerialException:
-    print(f"Failed to open port {serial_port}")
-    exit(1)
+    # Send POST request to the server
+    response = requests.post(SERVER_URL, data=json_data, headers={
+                             'Content-Type': 'application/json'})
 
-# Configure Bluetooth advertising
-bt_name = 'RaspberryPi'
-
-# Start Bluetooth advertising
-sock = BluetoothSocket(RFCOMM)
-advertise_service(sock, service_name=bt_name,
-                  service_uuid=UUID(service_uuid),
-                  service_classes=[UUID(service_uuid), SERIAL_PORT_CLASS],
-                  profiles=[SERIAL_PORT_PROFILE])
-
-print(f"Advertising Bluetooth service: {bt_name}")
-
-
-while True:
-    # Read data from the serial port
-    data = ser.readline().strip()
-
-    if data:
-        # Advertise the data over Bluetooth
-        sock.send(data)
+    # Check if the request was successful
+    if response.status_code == 200:
+        print("Data sent successfully!")
     else:
-        # No data received
-        continue
-    time.sleep(SLEEP_TIME)
+        print(f"Error sending data: {response.text}")
+
+except requests.exceptions.RequestException as e:
+    print(f"Error sending data: {e}")

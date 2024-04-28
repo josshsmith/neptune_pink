@@ -21,5 +21,5 @@
 LOG_MODULE_REGISTER(AHU, ALL_MODULES);
 
 // // begin bt thread
-K_THREAD_DEFINE(bt_scan_ahu_id, BT_STACKSIZE, bt_scan_ahu, NULL, NULL, NULL,
+K_THREAD_DEFINE(bt_task_id, BT_STACKSIZE, bt_task, NULL, NULL, NULL,
                 BT_PRIORITY, 0, 0);

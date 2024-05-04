@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: "Work Sans", sans-serif;
+    background-color: #F5F5F4;
+    overflow-y: hidden;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    background-color: navy;
+    height: 10vh;
+    flex-wrap: wrap;
+}
+
+nav div {
+    display: flex;
+    flex-direction: row;
+}
+
+main {
+    height: 90vh;
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
+
+#key {
+    border: 1px solid pink;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #878787;
+    border-radius: 20px;
+    height: 40px;
+
+    button {
+        background-color: navy;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    button:hover {
+        background-color: pink;
+        color: black;
+
+    }
+
+    div {
+        display: flex;
+        flex-direction: row;
+        margin-left: 20px;
+    }
+
+}
+
+#key div p {
+    margin-left: 20px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#table-pane {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+    background-color: #CCCCCC;
+    border-radius: 20px;
+    height: 70vh;
+    padding-top: 20px;
+    
+
+    div {
+        width: 98%;
+        margin-left: 1%;
+        overflow-y: scroll;
+    }
+
+}
+
+#db_result {
+    width: 100%;
+
+    th {
+        background-color: navy;
+        color: white;
+    }
+
+    td {
+        text-align: center;
+    }
+}
+
+nav a, nav div {
+    margin-left: 40px;
+}
+
+nav div h2 {
+    margin-left: 10px;
+}
+
+
+h2 {
+    color: white;
+    font-size: 5vh;
+    
+    font-weight: 200;
+    /*font-size: calc(1vw + 8vh);*/
+}
+
+h2 strong {
+    color: pink;
+    font-weight: 300;
+
+}
+
+#logo {
+    padding-top: 2vh;
+}
+
+#anchor_icon {
+    width: 5vh;
+    height: 5vh;
+}
+
+.page-link {
+    color: white;
+    font-size: 3vh;
+    text-decoration: None;
+    padding-top: 5vh;
+
+}
+
+.page-link:hover {
+    color: pink;
+}
+
+.docked {
+    background-color: orange;
+    color: white;
+}
+
+.moving {
+    background-color: limegreen;
+}
+
+.unknown {
+    background-color: #B90E0A;
+    color: white;
+}
+

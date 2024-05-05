@@ -1,3 +1,11 @@
+#Getting Started
+
+Inside a python virtual environment or conda environment run:
+```
+pip install -r requirements.txt
+```
+This will install the required python dependencies for the python server clients.
+
 # neptune_pink
 
 Cobolt 4 - Marine Vehicle AIS Transponder

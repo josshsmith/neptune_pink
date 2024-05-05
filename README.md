@@ -1,4 +1,4 @@
-#Getting Started
+# Getting Started
 
 Inside a python virtual environment or conda environment run:
 ```

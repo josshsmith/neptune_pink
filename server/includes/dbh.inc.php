@@ -3,12 +3,12 @@
 /* Local Host
 $dsn = "mysql:host=localhost;dbname=neptune_pink"; //Data source name
 $dbusername = "###";
-$dbpassword = "###"; //Change to root
+$dbpassword = "###";
 */
 
-// inifinity
-$dsn = "mysql:host=sql109.infinityfree.com;dbname=if0_36483890_neptune_pink_db"; //Data source name
-$dbusername = "###"; //Not for public repo
+// HOSTINGER IN USE
+$dsn = "mysql:host=localhost;dbname=###"; //Data source name
+$dbusername = "###"; 
 $dbpassword = "###"; 
 
 

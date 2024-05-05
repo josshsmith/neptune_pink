@@ -9,25 +9,26 @@
  * Assumes we have a NON NULL 
  * returns NULL 
  */
-function update_existing_vessel_info($pdo) {
+function update_existing_vessel_info($pdo, $data) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        $mmsi = $_POST["mmsi"];
+        
+        $mmsi = $data->mmsi;
         //Get all the possible things that can be updated from the request.
         
         //Return if we were not given an mmsi.
         if ($mmsi === NULL) {
+            echo 3;
             return;
         }
 
         $supplied_values = [
-            "vessel_name" => $_POST["vessel_name"],
-            "call_sign" => $_POST["call_sign"],
-            "latitude" => $_POST["latitude"],
-            "longitude" => $_POST["longitude"],
-            "speed" => $_POST["speed"],
-            "heading" => $_POST["heading"]
+            "vessel_name" => $data->vessel_name,
+            "call_sign" => $data->call_sign,
+            "latitude" => $data->latitude,
+            "longitude" => $data->longitude,
+            "speed" => $data->speed,
+            "heading" => $data->heading
         ];
 
         foreach($supplied_values as $key => $value) {
@@ -36,49 +37,38 @@ function update_existing_vessel_info($pdo) {
                 continue;
             } 
 
-            $query = "";
+            $query = "UPDATE MarineVesselData SET " . $key . " = ? WHERE mmsi = ?;";
 
-            if ($key == "vessel_name") {
-                $query = "UPDATE MarineVesselData SET vessel_name = ? WHERE mmsi = ?;";
-            } else if ($key == "call_sign") {
-                $query = "UPDATE MarineVesselData SET call_sign = ? WHERE mmsi = ?;";
-            } else if ($key == "latitude") {
-                $query = "UPDATE MarineVesselData SET latitude = ? WHERE mmsi = ?;";
-            } else if ($key == "longitude") {
-                $query = "UPDATE MarineVesselData SET longitude = ? WHERE mmsi = ?;";
-            } else if ($key == "speed") {
-                $query = "UPDATE MarineVesselData SET speed = ? WHERE mmsi = ?;";
-            } else if ($key == "heading") {
-                $query = "UPDATE MarineVesselData SET heading = ? WHERE mmsi = ?;";
-            }
-        
-            //Matched query
-            if ($query != "") {
-                $stmt = $pdo->prepare($query);
+            $stmt = $pdo->prepare($query);
 
-                //send to db and pass in mmsi.
-                $stmt->execute([$value, $mmsi]);
-            }
+            //send to db and pass in mmsi.
+            $stmt->execute([$value, $mmsi]);
+            
         }
 
         $stmt = null;
     }
 }
 
-//Check to make sure user came here from the form submission not just from url.
+//Check to make sure user came here from form submission not just from url.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $mmsi = $_POST["mmsi"];
-    $vessel_name = $_POST["vessel_name"];
-    $call_sign = $_POST["call_sign"];
-    $latitude = $_POST["latitude"];
-    $longitude= $_POST["longitude"];
-    $speed = $_POST["speed"];
-    $heading= $_POST["heading"];
+    $request_body = file_get_contents('php://input');
+    //Get the json data made from the post request.
+    $data = json_decode($request_body);
+    
+    $mmsi = $data->mmsi;
+    $vessel_name = $data->vessel_name;
+    $call_sign = $data->call_sign;
+    $latitude = $data->latitude;
+    $longitude= $data->longitude;
+    $speed = $data->speed;
+    $heading= $data->heading;
     
     if ($mmsi === NULL) {
-        echo "MSSI WAS NOT SUPPLIED";
+        // MSSI WAS NOT SUPPLIED
         //Kill the script as we don't have anything to process. 
+        echo 1;
         die();
     }
 
@@ -97,12 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $vessel_already_exists = $results[0]["FOUND"];
-        echo "Vessel already exists: " . $vessel_already_exists;
-        echo "<br>";
+        
         if ($vessel_already_exists) {
             
             //Update vessel data based on MMSI.
-            update_existing_vessel_info($pdo);
+            update_existing_vessel_info($pdo, $data);
 
         } else {
 
@@ -122,16 +111,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = null;
         
         //Kill the script as we no longer have anything to do. 
+        echo 0; //Return a response of 0 to mark successful db transaction.
         die();
 
     } catch (PDOException $e) {
+        echo 2;
         die("Query failed: " . $e->getMessage());
     }
 
-    //header("Location: ../index.php");
+    
 
 } else {
-    //Kill the script as we dont want to process anything. 
+    //Kill the script as we dont want to process anything.
+    echo 4;
     die();
 }
 

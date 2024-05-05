@@ -11,9 +11,7 @@ if ($num_ships === NULL) {
 } else {
 
     require_once "includes/dbh.inc.php";
-    var_dump($num_ships);
-    echo "Num ships is: " . $num_ships;
-
+    
     $query = "SELECT * FROM MarineVesselData ORDER BY update_time DESC LIMIT " . $num_ships . ";";
         
     $stmt = $pdo->prepare($query);

@@ -11,10 +11,11 @@ import numpy
 import time
 import threading
 import queue
+from vessel_data_client import get_vessel_data
 
 PORT = '/dev/tty.usbmodem0010502338821'
 BAUD_RATE = 115200
-SLEEP_DURATION = 0.001
+SLEEP_DURATION = 0.5
 
 # this will need to be replaced depending what machine is being used
 ser = serial.Serial(PORT, BAUD_RATE)
@@ -36,14 +37,21 @@ def ais_rec():
         except Exception as e:
             # Handle any other exceptions
             print(f"Error: {e}")
-            time.sleep(SLEEP_DURATION)  # Sleep duration can be altered
+            time.sleep(SLEEP_DURATION/10)  # Sleep duration can be altered
 
+        # Ensure ability to swap
+        time.sleep(SLEEP_DURATION/10)
 
 def web_cloud_thread():
     # get data from server
-    # put data on a queue
-    pass
-
+    while True:
+        vessel_data = get_vessel_data(5)
+        # put data on a queue
+        for dictionary in vessel_data:
+            q.put(dictionary)
+            print("Updated queue")
+        
+        time.sleep(SLEEP_DURATION)
 
 if __name__ == "__main__":
     json_thread = threading.Thread(target=ais_rec)

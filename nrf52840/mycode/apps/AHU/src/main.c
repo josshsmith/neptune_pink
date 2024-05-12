@@ -1,25 +1,57 @@
-#include <bt_ahu.h>
-#include <stdlib.h>
+/*
+ * Copyright (c) 2015-2016 Intel Corporation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* General Header Files */
+#include <stddef.h>
+#include <stdio.h>
 #include <string.h>
+#include <zephyr/sys/printk.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/types.h>
+
+/* Bluetooth files */
+#include <zephyr/bluetooth/addr.h>
 #include <zephyr/bluetooth/bluetooth.h>
+#include <zephyr/bluetooth/conn.h>
+#include <zephyr/bluetooth/gap.h>
 #include <zephyr/bluetooth/hci.h>
-#include <zephyr/data/json.h>
-#include <zephyr/device.h>
+#include <zephyr/net/buf.h>
+
+/* SHELL Command Header Files */
 #include <zephyr/kernel.h>
 #include <zephyr/shell/shell.h>
-#include <zephyr/sys/printk.h>
-#include <zephyr/sys/slist.h>
-#include <zephyr/sys/util.h>
-#include <zephyr/sys_clock.h>
-#include <zephyr/types.h>
-#include <zephyr/usb/usb_device.h>
 
-#define BT_PRIORITY 7
-#define BT_STACKSIZE 1024
-#define ALL_MODULES 4
+/* Logging Header Files */
+#include <zephyr/logging/log.h>
+#include <zephyr/logging/log_ctrl.h>
+#include <zephyr/logging/log_output.h>
 
-LOG_MODULE_REGISTER(AHU, ALL_MODULES);
+/* Custom Logging Files */
+#include "logging.h"
+#include "ble_nrf_advertising.h"
+#include "json_nrf_receive.h"
 
-// // begin bt thread
-K_THREAD_DEFINE(bt_task_id, BT_STACKSIZE, bt_task, NULL, NULL, NULL,
-                BT_PRIORITY, 0, 0);
+/* Thread Defines */
+#define STACKSIZE 1024
+#define PRIORITY 7
+#define SLEEP_TIME_MAIN_AHU 2000
+
+/* Logging Module Registration */
+LOG_MODULE_REGISTER(LOG_MODULE_NAME, LOG_LEVEL_DBG);
+
+/*
+ * int main(void)
+ *
+ * Initialise all of the commands for the shell for prac 2
+ *
+ * params:
+ * returns:
+ *      - 0 if successful
+ */
+int main(void) {
+  ble_nrf_adv_thread();
+  return 0;
+}

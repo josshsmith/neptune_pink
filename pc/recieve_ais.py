@@ -27,8 +27,11 @@ def ais_rec():
     while True:
         try:
             data = q.get()  # Get data from the queue
-            json_data = json.dumps(data)  # Convert data to JSON format
-            ser.write(json_data.encode())  # Send JSON data over serial
+            new_data = {key: str(val) for key, val in data.items()}  # Convert all items to strings
+            json_data_str = json.dumps(new_data)  # Convert data to JSON format
+            send_str = "json_send \'{json_data}\'\n".format(json_data = json_data_str)
+            ser.write(send_str.encode())  # Send JSON data over serial
+            print(send_str)
         except (KeyboardInterrupt, SystemExit):
             # Close the serial connection if the script is interrupted
             ser.close()

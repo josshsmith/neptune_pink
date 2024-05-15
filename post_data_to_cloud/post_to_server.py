@@ -64,11 +64,11 @@ def post_ship_data(mmsi: int, vessel_name: Optional[str], call_sign: Optional[st
     
     return 0
 
-
-#Example usage DELETE ME
-if post_ship_data(696969696, "MDS FAST RACER", "MDS69", 100, 40,
-                      0.1, None):
+"""
+if post_ship_data(99999999, "TUESDAY BOAT", "TB123", 10, 4,
+                      8, None):
     print("Failed to post data")
 
 else:
     print("Added Ship data")
+"""

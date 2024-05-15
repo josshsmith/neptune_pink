@@ -31,6 +31,7 @@
 
 #define SEND_PERIOD 200
 #define MAX_NUMBER_OF_VESSELS 5
+#define MAX_DATA 180
 
 /* New Protocol data positions */
 extern struct vessel_data *vessel_data_array;
@@ -40,7 +41,7 @@ extern struct vessel_data *vessel_data_array;
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
 
 /* iBeacon Protocol data packet */
-static uint8_t vessel_data_packet[128] = {
+static uint8_t vessel_data_packet[MAX_DATA] = {
     0x4c,        0x00,                         /* Apple */
     0x02,        0x15,                         /* iBeacon */
     0xEF,        0x68, 0x02, 0xFF,             /* UUID[15..12] */
@@ -49,11 +50,11 @@ static uint8_t vessel_data_packet[128] = {
     0x9B,        0x10,                         /* UUID[7..6] */
     0x52,        0xFF, 0xA9, 0x74, 0x00, 0x42, /* UUID[5..0] */
     0xFF,        0xFF,                         /* Major */
-    0x00,        0x00,                         /* Minor */
+    0x00,        0x00,
     IBEACON_RSSI};
 
 /* The generic bluetooth data to send */
-struct bt_data vessel_data[2] = {
+struct bt_data vessel_data_send[] = {
     BT_DATA_BYTES(BT_DATA_FLAGS, BT_LE_AD_NO_BREDR),
     BT_DATA(BT_DATA_MANUFACTURER_DATA, vessel_data_packet,
             25), /* Calibrated RSSI @ 1m */
@@ -104,8 +105,8 @@ int ble_nrf_adv_thread(void) {
   gpio_pin_toggle_dt(&led);
 
   /* Start a generic, connectible, scannable bluetooth advertising */
-  err = bt_le_adv_start(
-      BT_LE_ADV_NCONN_NAME, vessel_data, ARRAY_SIZE(vessel_data), NULL,
+  /* Create a non-connectable non-scannable advertising set */
+	err = bt_le_adv_start(BT_LE_ADV_NCONN_NAME, vessel_data_send, ARRAY_SIZE(vessel_data_send), NULL,
       0);
   if (err) {
     printk("Failed to create advertising set (err %d)\n", err);
@@ -126,8 +127,8 @@ int ble_nrf_adv_thread(void) {
         printk("Updated Transfer Packet\n");
 
         /* Update the data using the data_generic as a global */
-        err = bt_le_adv_update_data(vessel_data, ARRAY_SIZE(vessel_data), NULL,
-                                0);
+        // err = bt_le_adv_update_data(vessel_data, ARRAY_SIZE(vessel_data), NULL,
+        //                         0);
         if (err) {
             gpio_pin_toggle_dt(&led);
             printk("Failed to set advertising data");

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Function that will apply styling to the cell given the vessels speed.
+ * If the speed is less than 0.5 knots we say the vessel is docked. 
+ */
 function display_mmsi_with_state($row) {
     $result = "";
     if ($row["speed"] === NULL) {

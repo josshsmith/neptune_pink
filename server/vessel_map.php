@@ -48,6 +48,7 @@
         </div>
     </main>
     <script>
+        //Initialise map
         var map = L.map('map').setView([-27.475670, 153.021872], 15);
         
         var lightMap = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.jpg', {
@@ -69,9 +70,13 @@
         
         cityCatMap.addTo(map);
 
+        /**
+         * @abstract adds all of the recieved ships over the last two hours to the
+         * live map to visualise vessel positions.
+         */
         function addCustomIcons(map, iconData) {
             iconData.forEach(data => {
-                // Create a custom icon
+                // Create a the ship icon
                 var customIcon = L.icon({
                     iconUrl: data.iconUrl,
                     iconSize: [48, 48], // size of the icon
@@ -79,7 +84,7 @@
                     popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
                 });
 
-                // Create a marker with the custom icon and add it to the map
+                // Add the ship icon to the actual ships latitude and longitude position. 
                 var marker = L.marker([data.lat, data.lng], { icon: customIcon }).addTo(map);
 
                 // Add a popup to the marker if there is a popup text
@@ -89,6 +94,9 @@
             });
         }
 
+        /**
+         * @abstract Reduce timestamp to its nearest HH:MM representation. 
+         */
         function extractTime(timestamp) {
             // Create a Date object from the timestamp
             var date = new Date(timestamp);
@@ -108,6 +116,7 @@
             return timeString;
         }
 
+        //This will populate the variable with all vessel data over the past two hours.
         var allVesselData = <?php require_once "includes/map_plot_helper.php"?>;
         
         var formattedShipData = [];
@@ -127,7 +136,8 @@
 
         // Add custom icons to the map
         addCustomIcons(map, formattedShipData);
-
+        
+        //Switch of different map views based on the buttons selected by the user.
         document.getElementById('city-cat-mode').addEventListener('click', function() {
             map.removeLayer(lightMap);
             map.removeLayer(darkMap);

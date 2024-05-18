@@ -1,7 +1,8 @@
 <?php
-    //var_dump($_SERVER["REQUEST_METHOD"])
+    /* This is the landing page of the web application used for viewing the table data. 
+    */
     try {
-        require_once "includes/dbh.inc.php"; //Get access to code from this file
+        require_once "includes/dbh.inc.php"; //Get access to the PDO code from this file
 
         $query = "SELECT * FROM MarineVesselData;";
 
@@ -78,7 +79,8 @@
                             <th>SPEED</th>
                             <th>HEADING</th>
                         </tr>";
-
+                    
+                    //Loop through the query result and fill out table.
                     foreach ($results as $row) {
                         echo "<tr>";
                         foreach ($row as $key => $value) {
@@ -87,13 +89,13 @@
                                 echo display_mmsi_with_state($row);
                             } else {
                                 echo "<td>";
+                                //Use HTML special chars to ensure invulnerability to an injection attack.
                                 echo htmlspecialchars($value);
                                 echo "</td>";
                             }  
                         } 
                         echo "</tr>";
                     }
-
                     echo "</table>";
 
                 }

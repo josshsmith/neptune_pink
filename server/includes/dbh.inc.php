@@ -6,7 +6,7 @@ $dbusername = "###";
 $dbpassword = "###";
 */
 
-// HOSTINGER IN USE
+// HOSTINGER WEB HOSTING CREDENTIALS
 $dsn = "mysql:host=localhost;dbname=###"; //Data source name
 $dbusername = "###"; 
 $dbpassword = "###"; 

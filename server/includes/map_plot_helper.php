@@ -1,7 +1,7 @@
 <?php
-
-
-
+    /**
+     * Function to get the vessel information of all ships over the received over the last 20 hours. 
+     */
     require_once "dbh.inc.php";
     
     $query = "SELECT * FROM MarineVesselData WHERE update_time >= DATE_SUB(NOW(), INTERVAL 20 HOUR);";

@@ -1,1 +1,0 @@
-"mcuboot":"/Users/j/csse4011/prac3/bootloader/mcuboot":"/Users/j/csse4011/prac3/bootloader/mcuboot/boot/zephyr/sysbuild"

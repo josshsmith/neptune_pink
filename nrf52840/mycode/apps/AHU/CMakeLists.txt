@@ -5,4 +5,4 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 project(ahu)
 
 include_directories(../../include)
-target_sources(app PRIVATE src/main.c ../../mylib/bt_ahu.c)
+target_sources(app PRIVATE src/main.c ../../mylib/uart_rec.c ../../mylib/bt_ahu.c)

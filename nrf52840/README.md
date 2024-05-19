@@ -1,3 +1,2 @@
-# Josh's repo
-
-46984881 4011 Repo
+# nrf52840dk  
+All c and h files are in this folder, with a proj.conf file. 

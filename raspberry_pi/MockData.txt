@@ -1,0 +1,6 @@
+This is fake data
+I wonder what will happpen
+{"class":"AIS", "device":"AIS-catcher", "scaled":true, "channel":"B", "mmsi":503586200, "status":0, "status_text":"Under way", "speed":8.800, "lon":153.003093, "lat":-27.490287, "course":360, "heading":320, "second":32, "vessel_name":"Boat1", "call_sign":"MVR"}
+{"class":"AIS", "device":"AIS-catcher", "scaled":true, "channel":"B", "mmsi":503586300, "status":0, "status_text":"Under way", "speed":4.300, "lon":153.004093, "lat":-27.495287, "course":360, "heading":212, "second":32, "vessel_name":"Boat2", "call_sign":"CM"}
+{"class":"AIS", "device":"AIS-catcher", "scaled":true, "channel":"B", "mmsi":503586400, "status":0, "status_text":"Under way", "speed":1.300, "lon":153.004824, "lat":-27.490754, "course":360, "heading":148, "second":32, "vessel_name":"Boat3", "call_sign":"JS"}
+{"class":"AIS", "device":"AIS-catcher", "scaled":true, "channel":"B", "mmsi":503586500, "status":0, "status_text":"Under way", "speed":0.700, "lon":153.002785, "lat":-27.492839, "course":360, "heading":93, "second":32, "vessel_name":"Boat4", "call_sign":"CD"}

@@ -1,0 +1,10 @@
+{
+	"config": "aiscatcher",
+	"version": "1",
+	"rtlsdr": {
+		"active": true,
+		"rtlagc": true,
+		"tuner": "auto",
+		"biastee": false
+	}
+}

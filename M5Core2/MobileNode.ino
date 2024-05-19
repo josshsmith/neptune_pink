@@ -11,6 +11,15 @@
 #define SCREEN_3 3
 #define SCREEN_4 4
 
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+#define BUTTON_WIDTH SCREEN_WIDTH/2
+#define BUTTON_HEIGHT 100
+
+#define VESSEL_SCREEN_TITLE_INDENT 90
+#define VESSEL_SCREEN_DATA_SPACING 30
+#define VESSEL_SCREEN_DATA_HORIZONTAL_INDENT 140
+
 /* Implement Vessel Data */
 #define DATA_INIT() \
 { \
@@ -38,10 +47,10 @@ struct VesselData Data4;
 int currentScreen = 0;
 
 /* Define Buttons */
-Button vessel_1(0, 0, 160, 100, "vessel_1");
-Button vessel_2(160, 0, 160, 100, "vessel_2");
-Button vessel_3(0, 100, 160, 100, "vessel_3");
-Button vessel_4(160, 100, 160, 100, "vessel_4");
+Button vessel_1(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "vessel_1");
+Button vessel_2(BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "vessel_2");
+Button vessel_3(0, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "vessel_3");
+Button vessel_4(BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "vessel_4");
 
 void setup() {
   // Initialise the empty data structs
@@ -61,7 +70,7 @@ void setup() {
   BLE.setEventHandler(BLEDiscovered, bleCentralDiscoverHandler);
 
   // Start scanning for peripherals with duplicates
-  BLE.scanForName("test", true);
+  BLE.scanForName("Vessel Advertising", true);
 
   // Add Button Handlers
   M5.Buttons.addHandler(handle_buttons,  E_TOUCH);
@@ -94,11 +103,11 @@ void handle_buttons(Event& e) {
   if (currentScreen == MAIN_SCREEN) {
     if (b.x == 0 && b.y == 0) {
       display_screen_1();
-    } else if (b.x == 160 && b.y == 0) {
+    } else if (b.x == BUTTON_WIDTH && b.y == 0) {
       display_screen_2();
-    } else if (b.x == 0 && b.y == 100) {
+    } else if (b.x == 0 && b.y == BUTTON_HEIGHT) {
       display_screen_3();
-    } else if (b.x == 160 && b.y == 100) {
+    } else if (b.x == BUTTON_WIDTH && b.y == BUTTON_HEIGHT) {
       display_screen_4();
     }
   }
@@ -108,33 +117,38 @@ void handle_buttons(Event& e) {
 
 void draw_boundary() {
   // Draw the boundary lines
-  M5.Lcd.drawFastVLine(0, 0, 240, WHITE);
-  M5.Lcd.drawFastHLine(0, 0, 320, WHITE);
-  M5.Lcd.drawFastVLine(319, 0, 240, WHITE);
-  M5.Lcd.drawFastHLine(0, 239, 320, WHITE);
+  M5.Lcd.drawFastVLine(0, 0, SCREEN_HEIGHT, WHITE);
+  M5.Lcd.drawFastHLine(0, 0, SCREEN_WIDTH, WHITE);
+  M5.Lcd.drawFastVLine(SCREEN_WIDTH-1, 0, SCREEN_HEIGHT, WHITE);
+  M5.Lcd.drawFastHLine(0, SCREEN_HEIGHT-1, SCREEN_WIDTH, WHITE);
   return;
 }
 
 void draw_table() {
   // Horizontal Lines
-  M5.Lcd.drawFastHLine(0, 90, 320, WHITE);
-  M5.Lcd.drawFastHLine(0, 120, 320, WHITE);
-  M5.Lcd.drawFastHLine(0, 150, 320, WHITE);
-  M5.Lcd.drawFastHLine(0, 180, 320, WHITE);
-  M5.Lcd.drawFastHLine(0, 210, 320, WHITE);
+  M5.Lcd.drawFastHLine(0, VESSEL_SCREEN_TITLE_INDENT, SCREEN_WIDTH, WHITE);
+  M5.Lcd.drawFastHLine(0, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING, SCREEN_WIDTH, WHITE);
+  M5.Lcd.drawFastHLine(0, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING*2, SCREEN_WIDTH, WHITE);
+  M5.Lcd.drawFastHLine(0, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING*3, SCREEN_WIDTH, WHITE);
+  M5.Lcd.drawFastHLine(0, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING*4, SCREEN_WIDTH, WHITE);
 
   // Vertical Lines
-  M5.Lcd.drawFastVLine(140, 90, 150, WHITE);
+  M5.Lcd.drawFastVLine(VESSEL_SCREEN_DATA_HORIZONTAL_INDENT, VESSEL_SCREEN_TITLE_INDENT, VESSEL_SCREEN_DATA_SPACING*5, WHITE);
 
   M5.Lcd.setTextSize(2);
   M5.Lcd.setTextDatum(MC_DATUM);
 
   // Names
-  M5.Lcd.drawString("MMSI", 70, 90+15, 1);
-  M5.Lcd.drawString("Speed", 70, 120+15, 1);
-  M5.Lcd.drawString("Heading", 70, 150+15, 1);
-  M5.Lcd.drawString("Latitude", 70, 180+15, 1);
-  M5.Lcd.drawString("Longitude", 70, 210+15, 1);
+  M5.Lcd.drawString("MMSI", VESSEL_SCREEN_DATA_HORIZONTAL_INDENT/2, 
+                      VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 0.5, 1);
+  M5.Lcd.drawString("Speed", VESSEL_SCREEN_DATA_HORIZONTAL_INDENT/2, 
+                      VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 1.5, 1);
+  M5.Lcd.drawString("Heading", VESSEL_SCREEN_DATA_HORIZONTAL_INDENT/2, 
+                      VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 2.5, 1);
+  M5.Lcd.drawString("Latitude", VESSEL_SCREEN_DATA_HORIZONTAL_INDENT/2, 
+                      VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 3.5, 1);
+  M5.Lcd.drawString("Longitude", VESSEL_SCREEN_DATA_HORIZONTAL_INDENT/2, 
+                      VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 4.5, 1);
 }
 
 void display_main_screen() {
@@ -168,19 +182,19 @@ void display_main_screen() {
   draw_boundary();
 
   // Top left cursor
-  M5.Lcd.drawString("1", 80, 50, 4);
+  M5.Lcd.drawString("1", BUTTON_WIDTH * 0.5, BUTTON_HEIGHT * 0.5, 4);
 
   // Top right cursor
-  M5.Lcd.drawString("2", 240, 50, 4);
+  M5.Lcd.drawString("2", BUTTON_WIDTH * 1.5, BUTTON_HEIGHT * 0.5, 4);
 
   // Bottom left cursor
-  M5.Lcd.drawString("3", 80, 150, 4);
+  M5.Lcd.drawString("3", BUTTON_WIDTH * 0.5, BUTTON_HEIGHT * 1.5, 4);
 
   // Bottom right cursor
-  M5.Lcd.drawString("4", 240, 150, 4);
+  M5.Lcd.drawString("4", BUTTON_WIDTH * 1.5, BUTTON_HEIGHT * 1.5, 4);
 
   // Write tha main vessel information
-  M5.Lcd.drawString("All Vessels", 160, 220, 2);
+  M5.Lcd.drawString("All Vessels", BUTTON_WIDTH, SCREEN_HEIGHT - (SCREEN_HEIGHT/2 - BUTTON_HEIGHT), 2);
 
   return;
 }
@@ -199,18 +213,17 @@ void display_screen_1() {
   draw_table();
 
   // Identify Vessel
-  M5.Lcd.drawString("Vessel 1", 160, 50, 4);
+  M5.Lcd.drawString("Vessel 1", SCREEN_WIDTH/2, BUTTON_HEIGHT/2, 4);
 
   // Set Datum
   M5.Lcd.setTextDatum(ML_DATUM);
 
   // Draw numbers
-  // Should probably ENUM these MAGIC NUMBERS
-  M5.Lcd.drawNumber(Data1.mmsi, 160, 90+15); // Add value here
-  M5.Lcd.drawFloat(Data1.speed, 2, 160, 120+15); // Add value here
-  M5.Lcd.drawFloat(Data1.heading, 2, 160, 150+15); // Add value here
-  M5.Lcd.drawFloat(Data1.latitude, 6, 160, 180+15); // Add value here
-  M5.Lcd.drawFloat(Data1.longitude, 6, 160, 210+15); // Add value here
+  M5.Lcd.drawNumber(Data1.mmsi, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 0.5); 
+  M5.Lcd.drawFloat(Data1.speed, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 1.5); 
+  M5.Lcd.drawFloat(Data1.heading, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 2.5); 
+  M5.Lcd.drawFloat(Data1.latitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 3.5); 
+  M5.Lcd.drawFloat(Data1.longitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 4.5);
 
   return;
 }
@@ -229,18 +242,17 @@ void display_screen_2() {
   draw_table();
 
   // Identify Vessel
-  M5.Lcd.drawString("Vessel 2", 160, 50, 4);
+  M5.Lcd.drawString("Vessel 2", SCREEN_WIDTH/2, BUTTON_HEIGHT/2, 4);
 
   // Set Datum
   M5.Lcd.setTextDatum(ML_DATUM);
 
   // Draw numbers
-  // Should probably ENUM these MAGIC NUMBERS
-  M5.Lcd.drawNumber(Data2.mmsi, 160, 90+15); // Add value here
-  M5.Lcd.drawFloat(Data2.speed, 2, 160, 120+15); // Add value here
-  M5.Lcd.drawFloat(Data2.heading, 2, 160, 150+15); // Add value here
-  M5.Lcd.drawFloat(Data2.latitude, 6, 160, 180+15); // Add value here
-  M5.Lcd.drawFloat(Data2.longitude, 6, 160, 210+15); // Add value here
+  M5.Lcd.drawNumber(Data2.mmsi, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 0.5); 
+  M5.Lcd.drawFloat(Data2.speed, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 1.5); 
+  M5.Lcd.drawFloat(Data2.heading, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 2.5); 
+  M5.Lcd.drawFloat(Data2.latitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 3.5); 
+  M5.Lcd.drawFloat(Data2.longitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 4.5);
 
   return;
 }
@@ -259,18 +271,17 @@ void display_screen_3() {
   draw_table();
 
   // Identify Vessel
-  M5.Lcd.drawString("Vessel 3", 160, 50, 4);
+  M5.Lcd.drawString("Vessel 3", SCREEN_WIDTH/2, BUTTON_HEIGHT/2, 4);
 
   // Set Datum
   M5.Lcd.setTextDatum(ML_DATUM);
 
   // Draw numbers
-  // Should probably ENUM these MAGIC NUMBERS
-  M5.Lcd.drawNumber(Data3.mmsi, 160, 90+15); // Add value here
-  M5.Lcd.drawFloat(Data3.speed, 2, 160, 120+15); // Add value here
-  M5.Lcd.drawFloat(Data3.heading, 2, 160, 150+15); // Add value here
-  M5.Lcd.drawFloat(Data3.latitude, 6, 160, 180+15); // Add value here
-  M5.Lcd.drawFloat(Data3.longitude, 6, 160, 210+15); // Add value here
+  M5.Lcd.drawNumber(Data3.mmsi, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 0.5); 
+  M5.Lcd.drawFloat(Data3.speed, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 1.5); 
+  M5.Lcd.drawFloat(Data3.heading, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 2.5); 
+  M5.Lcd.drawFloat(Data3.latitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 3.5); 
+  M5.Lcd.drawFloat(Data3.longitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 4.5);
 
   return;
 }
@@ -289,18 +300,17 @@ void display_screen_4() {
   draw_table();
 
   // Identify Vessel
-  M5.Lcd.drawString("Vessel 4", 160, 50, 4);
+  M5.Lcd.drawString("Vessel 4", SCREEN_WIDTH/2, BUTTON_HEIGHT/2, 4);
 
   // Set Datum
   M5.Lcd.setTextDatum(ML_DATUM);
 
   // Draw numbers
-  // Should probably ENUM these MAGIC NUMBERS
-  M5.Lcd.drawNumber(Data4.mmsi, 160, 90+15); // Add value here
-  M5.Lcd.drawFloat(Data4.speed, 2, 160, 120+15); // Add value here
-  M5.Lcd.drawFloat(Data4.heading, 2, 160, 150+15); // Add value here
-  M5.Lcd.drawFloat(Data4.latitude, 6, 160, 180+15); // Add value here
-  M5.Lcd.drawFloat(Data4.longitude, 6, 160, 210+15); // Add value here
+  M5.Lcd.drawNumber(Data4.mmsi, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 0.5); 
+  M5.Lcd.drawFloat(Data4.speed, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 1.5); 
+  M5.Lcd.drawFloat(Data4.heading, 2, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 2.5); 
+  M5.Lcd.drawFloat(Data4.latitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 3.5); 
+  M5.Lcd.drawFloat(Data4.longitude, 6, SCREEN_WIDTH/2, VESSEL_SCREEN_TITLE_INDENT + VESSEL_SCREEN_DATA_SPACING * 4.5);
 
   return;
 }
@@ -345,101 +355,109 @@ void populate_class(uint8_t *manuDataBuffer, int manuDataLen, int dataPos) {
 
   heading = char_to_number(manuDataBuffer[9]) * pow(100, 1) + char_to_number(manuDataBuffer[10]) + 
             char_to_number(manuDataBuffer[11]) * pow(100, -1);
-  
-  latitude = char_to_number(manuDataBuffer[12]) * pow(100, 1) + char_to_number(manuDataBuffer[13]) + 
+
+  latitude = char_to_number(manuDataBuffer[12] & 0x7F) * pow(100, 1) + char_to_number(manuDataBuffer[13]) + 
             char_to_number(manuDataBuffer[14]) * pow(100, -1) + char_to_number(manuDataBuffer[15]) * pow(100, -2) +
             char_to_number(manuDataBuffer[16]) * pow(100, -3);
 
-  longitude = char_to_number(manuDataBuffer[17]) * pow(100, 1) + char_to_number(manuDataBuffer[18]) + 
+  longitude = char_to_number(manuDataBuffer[17] & 0x7F) * pow(100, 1) + char_to_number(manuDataBuffer[18]) + 
             char_to_number(manuDataBuffer[19]) * pow(100, -1) + char_to_number(manuDataBuffer[20]) * pow(100, -2) +
             char_to_number(manuDataBuffer[21]) * pow(100, -3);
 
-  // Update all values here, 
-  // Maybe only update display if there has been a change, and if the screen is on the data
-  int updateDisplayFlag = 0;
+  if (manuDataBuffer[12] & 0x80) {
+    latitude = -latitude;
+  }
+
+  if (manuDataBuffer[17] & 0x80) {
+    longitude = -longitude;
+  }
 
   switch (dataPos) {
-    case (1):
-      if (currentScreen == SCREEN_1) {
-        if (Data1.mmsi == mmsi && Data1.speed == speed &&
+    case (SCREEN_1):
+      // Check if the data is the exact same
+      if (Data1.mmsi == mmsi && Data1.speed == speed &&
             Data1.heading == heading && Data1.latitude == latitude &&
             Data1.longitude == longitude) {
-          updateDisplayFlag = 1;
-        }
-      }
-      
-      Data1.mmsi = mmsi;
-      Data1.speed = speed;
-      Data1.heading = heading;
-      Data1.latitude = latitude;
-      Data1.longitude = longitude;
+        return;
+      } else {
+        // If not the same, update
+        Data1.mmsi = mmsi;
+        Data1.speed = speed;
+        Data1.heading = heading;
+        Data1.latitude = latitude;
+        Data1.longitude = longitude;
 
-      if (updateDisplayFlag) {
-        display_screen_1();
-      }      
+        if (currentScreen == SCREEN_1) {
+          // If the current data is active, update the screen
+          display_screen_1();
+        }
+      }  
 
       break;
 
-    case (2):
-      if (currentScreen == SCREEN_2) {
-        if (Data2.mmsi == mmsi && Data2.speed == speed &&
+    case (SCREEN_2):
+      // Check if the data is the exact same
+      if (Data2.mmsi == mmsi && Data2.speed == speed &&
             Data2.heading == heading && Data2.latitude == latitude &&
             Data2.longitude == longitude) {
-          updateDisplayFlag = 1;
+        return;
+      } else {
+        // If not the same, update
+        Data2.mmsi = mmsi;
+        Data2.speed = speed;
+        Data2.heading = heading;
+        Data2.latitude = latitude;
+        Data2.longitude = longitude;
+
+        if (currentScreen == SCREEN_2) {
+          // If the current data is active, update the screen
+          display_screen_2();
         }
-      }
-
-      Data2.mmsi = mmsi;
-      Data2.speed = speed;
-      Data2.heading = heading;
-      Data2.latitude = latitude;
-      Data2.longitude = longitude;
-
-      if (updateDisplayFlag) {
-        display_screen_2();
       }    
 
       break;
 
-    case (3):
-      if (currentScreen == SCREEN_3) {
-        if (Data3.mmsi == mmsi && Data3.speed == speed &&
+    case (SCREEN_3):
+      // Check if the data is the exact same
+      if (Data3.mmsi == mmsi && Data3.speed == speed &&
             Data3.heading == heading && Data3.latitude == latitude &&
             Data3.longitude == longitude) {
-          updateDisplayFlag = 1;
+        return;
+      } else {
+        // If not the same, update
+        Data3.mmsi = mmsi;
+        Data3.speed = speed;
+        Data3.heading = heading;
+        Data3.latitude = latitude;
+        Data3.longitude = longitude;
+
+        if (currentScreen == SCREEN_3) {
+          // If the current data is active, update the screen
+          display_screen_3();
         }
-      }
-
-      Data3.mmsi = mmsi;
-      Data3.speed = speed;
-      Data3.heading = heading;
-      Data3.latitude = latitude;
-      Data3.longitude = longitude;
-
-      if (updateDisplayFlag) {
-        display_screen_3();
-      }    
+      }   
 
       break;
 
-    case (4):
-      if (currentScreen == SCREEN_4) {
-        if (Data4.mmsi == mmsi && Data4.speed == speed &&
+    case (SCREEN_4):
+      // Check if the data is the exact same
+      if (Data4.mmsi == mmsi && Data4.speed == speed &&
             Data4.heading == heading && Data4.latitude == latitude &&
             Data4.longitude == longitude) {
-          updateDisplayFlag = 1;
+        return;
+      } else {
+        // If not the same, update
+        Data4.mmsi = mmsi;
+        Data4.speed = speed;
+        Data4.heading = heading;
+        Data4.latitude = latitude;
+        Data4.longitude = longitude;
+
+        if (currentScreen == SCREEN_4) {
+          // If the current data is active, update the screen
+          display_screen_4();
         }
-      }
-
-      Data4.mmsi = mmsi;
-      Data4.speed = speed;
-      Data4.heading = heading;
-      Data4.latitude = latitude;
-      Data4.longitude = longitude;
-
-      if (updateDisplayFlag) {
-        display_screen_4();
-      }    
+      }   
 
       break;
 

@@ -1,10 +1,2 @@
-# SPDX-License-Identifier: Apache-2.0
 
-cmake_minimum_required(VERSION 3.20.0)
-find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(broadcaster_multiple)
-
-target_sources(app PRIVATE
-  src/main.c
-  src/broadcaster_multiple.c
-)
+zephyr_sources(uart_rec.c bt_ahu.c)

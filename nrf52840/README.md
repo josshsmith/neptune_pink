@@ -1,2 +1,3 @@
-# Project
-NRF52840 is used to recieve json data from pc and send via bluetooth to the M5.
+# Josh's repo
+
+46984881 4011 Repo

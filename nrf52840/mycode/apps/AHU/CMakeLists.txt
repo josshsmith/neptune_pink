@@ -1,22 +1,8 @@
-# Top-level CMakeLists.txt for the skeleton application.
-#
-# Copyright (c) 2017 Open Source Foundries Limited
-# Copyright (c) 2018 Foundries.io Ltd
-#
 # SPDX-License-Identifier: Apache-2.0
-#
-# This provides a basic application structure suitable for loading by
-# mcuboot, which is easy to customize on a per-board basis. It can be
-# used as a starting point for new applications.
 
 cmake_minimum_required(VERSION 3.20.0)
-
-# find_package(Zephyr) in order to load application boilerplate:
-# https://docs.zephyrproject.org/latest/develop/application/index.html
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(prac3) 
-include_directories(../../include/)
+project(ahu)
 
-target_sources(app PRIVATE src/main.c
-                ../../mylib/ble_nrf_advertising.c
-                ../../mylib/json_nrf_receive.c)
+include_directories(../../include)
+target_sources(app PRIVATE src/main.c ../../mylib/uart_rec.c ../../mylib/bt_ahu.c)

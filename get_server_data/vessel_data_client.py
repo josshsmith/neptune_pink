@@ -28,7 +28,3 @@ def get_vessel_data(num_vessels: int = 5) -> list[dict]:
         #got a bad response code from the server. 
         print(f"Server NOT operating properly. SERVER STATUS: {ship_data_respone.status_code}")
         return []
-
-    
-
-print(get_vessel_data(1))
